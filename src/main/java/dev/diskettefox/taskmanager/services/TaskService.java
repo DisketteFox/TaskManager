@@ -1,5 +1,7 @@
-package dev.diskettefox.taskmanager;
+package dev.diskettefox.taskmanager.services;
 
+import dev.diskettefox.taskmanager.models.TaskModel;
+import dev.diskettefox.taskmanager.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +20,20 @@ public class TaskService {
         this.executorService = Executors.newCachedThreadPool();
     }
 
-    public Task createTask(Task task) {
+    public TaskModel createTask(TaskModel taskModel) {
         executorService.submit(() -> {
             try {
                 Thread.sleep(5000); // 5 seconds
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            task.setCompleted(true);
-            taskRepository.save(task);
+            taskModel.setCompleted(true);
+            taskRepository.save(taskModel);
         });
-        return taskRepository.save(task);
+        return taskRepository.save(taskModel);
     }
 
-    public Iterable<Task> getTasks() {
+    public Iterable<TaskModel> getTasks() {
         return taskRepository.findAll();
     }
 

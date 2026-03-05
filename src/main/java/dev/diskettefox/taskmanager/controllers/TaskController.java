@@ -1,5 +1,7 @@
-package dev.diskettefox.taskmanager;
+package dev.diskettefox.taskmanager.controllers;
 
+import dev.diskettefox.taskmanager.models.TaskModel;
+import dev.diskettefox.taskmanager.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +18,19 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        Task taskCreated = taskService.createTask(task);
-        return new ResponseEntity<>(taskCreated, HttpStatus.CREATED);
+    @PostMapping("/createTask")
+    public ResponseEntity<TaskModel> createTask(@RequestBody TaskModel taskModel) {
+        TaskModel taskModelCreated = taskService.createTask(taskModel);
+        return new ResponseEntity<>(taskModelCreated, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<Iterable<Task>> getTasks() {
-        Iterable<Task> tasks = taskService.getTasks();
+    @GetMapping("/getTasks")
+    public ResponseEntity<Iterable<TaskModel>> getTasks() {
+        Iterable<TaskModel> tasks = taskService.getTasks();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteTask/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable String id) {
         taskService.deleteTask(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
